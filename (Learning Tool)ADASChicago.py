@@ -1,3 +1,16 @@
+# QCI&AI Learning Tools Software
+
+# Supported by
+# National Science Technology Council, Taiwan
+# AI-FML Agent with Machine Learning Tools for AloT Future Applications
+# MOST 109-2622-E-024-001-CC1, MOST 110-2622-E-024-003-CC1, MOST 111-2622-E-024-001, and NSTC 112-2622-E-024-002
+
+# Copyright (c) 2024
+# KWS Center/OASE Lab. of NUTN, Taiwan
+# Zsystem Technology Co., Taiwan
+# Mediawave Intelligent Communication Limited., Taiwan
+# All rights reserved.
+
 from gpb import delay
 import pomaspackage as pomaspkg
 import display

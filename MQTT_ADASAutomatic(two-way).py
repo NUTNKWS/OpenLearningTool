@@ -1,11 +1,11 @@
-# AIoT-FML Learning Tools Software
+# QCI&AI Learning Tools Software
 
 # Supported by
-# Ministry of Science and Technology (MOST), Taiwan
+# National Science Technology Council, Taiwan
 # AI-FML Agent with Machine Learning Tools for AloT Future Applications
-# MOST 109-2622-E-024-001-CC1, MOST 110-2622-E-024-003-CC1, and MOST 111-2622-E-024-001
+# MOST 109-2622-E-024-001-CC1, MOST 110-2622-E-024-003-CC1, MOST 111-2622-E-024-001, and NSTC 112-2622-E-024-002
 
-# Copyright (c) 2023
+# Copyright (c) 2024
 # KWS Center/OASE Lab. of NUTN, Taiwan
 # Zsystem Technology Co., Taiwan
 # Mediawave Intelligent Communication Limited., Taiwan
@@ -21,12 +21,13 @@ import utime
 
 import const
 
-#inferred result: 17.619(dangerous), 50(medium), 82.381(safe), 31.124(dangerous), and 40.778(medium)
-input_data = [['20', '30'],
-                ['100', '120'],
-                ['200', '200'],
-                ['100', '120'],
-                ['200', '200']]
+#inferred result: 17.620(safe), 50(normal), 82.380(dangerous), 64.065(normal), 82.380(dangerous)
+input_data = [
+                ['255', '3546', '25'],
+                ['200', '2000', '30'],
+                ['2', '2000', '40'],                
+                ['57', '1119', '28.1'],
+                ['13', '982', '24.1']]
 
 class AILearningPlatform:
     def __init__(self):
@@ -195,29 +196,28 @@ class AILearningPlatform:
         terminalMsg = ''
 
         if (outv <= 35): 
-            #safe
+            #not recommended
             self.mySpeaker.playAudio('ifeelgood.mp3')
             self.myFan.Control_Fan(300)
             self.myLCD.ShowImage_LCD('smallest.bmp', const.LCDImgDelayTime)
-            lcdMsg, terminalMsg = self.organizeMsg(outv_msg, 'It is safe!')
+            lcdMsg, terminalMsg = self.organizeMsg(outv_msg, 'It is safe.')
             #control LED to flash
-            self.myLED.Flash_ledGREEN(30, 40)    
+            self.myLED.Flash_ledRED(30, 40)    
                
         elif (outv > 35 and outv <= 65):       
-            #normal
+            #recommended
             self.mySpeaker.playAudio('bibi.mp3')
-            self.myFan.Control_Fan(0)
             self.myLCD.ShowImage_LCD('middle.bmp', const.LCDImgDelayTime)
             lcdMsg, terminalMsg = self.organizeMsg(outv_msg, 'Keep going!')
             self.myLED.Flash_ledGREENledRED(30, 40)
                        
         elif (outv > 65):       
-            #dangerous
+            #very recommended
             self.mySpeaker.playAudio('warning.mp3')
             self.myFan.Control_Fan(0)
             self.myLCD.ShowImage_LCD('biggest.bmp', const.LCDImgDelayTime)
-            lcdMsg, terminalMsg = self.organizeMsg(outv_msg, 'Dangerous!!!')
-            self.myLED.Flash_ledRED(30, 40)                                   
+            lcdMsg, terminalMsg = self.organizeMsg(outv_msg, 'Dangerous!!\nYou are too close!\nWatch out!')
+            self.myLED.Flash_ledGREEN(30, 40)                                        
 
         #show message on LCD
         if (lcdMsg != ''):
@@ -387,7 +387,7 @@ class AILearningPlatform:
             
             #compose input data string and publish data to MQTT_Service
             if (self.countTimer >= const.MQTT_Publish_Count):
-                data_str = str(distance) + const.MQTT_Publish_Separator + str(light)
+                data_str = str(distance) + const.MQTT_Publish_Separator + str(light) + const.MQTT_Publish_Separator + str(temperature)
                 self.wifi.mqttPub(const.MQTT_pqos, const.MQTT_retain, const.MQTT_AIFMLTOPIC_Publisher, data_str)
                 self.countTimer = 0
             
