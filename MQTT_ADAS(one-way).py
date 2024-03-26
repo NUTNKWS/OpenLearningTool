@@ -57,7 +57,7 @@ def Activate_Hardware(outv_msg):
     if (outv <= 35): 
         #safe
         mySpeaker.playAudio('safe.wav')
-        myFan.Control_Fan(700)
+        myFan.Control_Fan(300)
         myLCD.ShowImage_LCD('smallest.bmp', const.LCDImgDelayTime)
         lcdMsg, terminalMsg = organizeMsg(outv_msg, 'It is safe!')
         #control LED to flash
