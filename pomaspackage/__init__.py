@@ -26,3 +26,4 @@ from pomaspackage.CameraModule import CameraModule
 from pomaspackage.MicrophoneModule import MicrophoneModule
 from pomaspackage.SDModule import SDModule
 from pomaspackage.StatAnalModule import StatAnalModule
+from pomaspackage.TimerModule import TimerModule
